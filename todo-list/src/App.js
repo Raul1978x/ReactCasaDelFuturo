@@ -1,45 +1,28 @@
 import React, { useState } from 'react';
-import TodoList from './TodoList';
+import './App.css';
+import TodoList from './component/TodoList';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState('');
+  const [newTask, setNewTask] = useState("");
 
   const addTask = () => {
-    if (newTask.trim() !== '') {
-      setTasks([...tasks, { id: tasks.length, completed: false, text: newTask }]);
-      setNewTask('');
+    if (newTask.trim() !== "") {
+      setTasks([...tasks, { id: tasks.length, name: newTask, isComplete: false }]);
+      setNewTask(""); 
     }
   };
 
-  const completeTask = (id) => {
-    setTasks((prevTasks) => {
-      return prevTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      );
-    });
-  };
-
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">Todo List</h1>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Nueva tarea"
-          onChange={(e) => setNewTask(e.target.value)}
-          value={newTask}
-        />
-        <button className="btn btn-primary" onClick={addTask}>
-          Agregar tarea
-        </button>
-      </div>
-      <TodoList tasks={tasks} deleteTask={deleteTask} completeTask={completeTask} />
+    <div className='container bg-gradient '>
+      <h1 className='text-center'>Todo List</h1>
+      <input className="form-control " value={newTask} type="text" placeholder="Nueva Tarea" onChange={(e) => setNewTask(e.target.value)} />
+      <button className='btn btn-secondary mt-1 ' onClick={() => addTask(newTask)}>Agregar tarea</button>
+      <TodoList tasks={tasks} deleteTask={deleteTask} />
     </div>
   );
 }
